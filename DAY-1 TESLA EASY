@@ -34,4 +34,4 @@ The dataset you are querying against may have different input & output - this is
 ------------------------------------------------
 SOLUTION
 
-select distinct(part) from parts_assembly where finish_date is null;
+select distinct(part) from parts_assembly where finish_date is null
