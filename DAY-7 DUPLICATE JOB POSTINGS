@@ -29,3 +29,18 @@ SOLUTION --
 WHERE COMPANY_DUPLICATE>1;
 2) SELECT COUNT(COMPANY_ID) FROM (SELECT COMPANY_ID, COUNT(COMPANY_ID) AS COMPANY_DUPLICATE FROM JOB_LISTINGS GROUP BY COMPANY_ID, TITLE,DESCRIPTION) A
 WHERE COMPANY_DUPLICATE>1;
+3) WITH jobs_grouped AS (
+  SELECT 
+    company_id, 
+    title, 
+    description, 
+    COUNT(job_id) AS job_count
+  FROM job_listings
+  GROUP BY 
+    company_id, 
+    title, 
+    description)
+
+SELECT COUNT(DISTINCT company_id) AS co_w_duplicate_jobs
+FROM jobs_grouped
+WHERE job_count > 1;
