@@ -34,10 +34,15 @@ p.p.s if you find this problem too tricky, even after the hints, check out my 30
 
 ANSWER-->
 
-
+1)
 SELECT CANDIDATE_ID FROM (
 SELECT CANDIDATE_ID, SUM(CASE WHEN SKILLS IN ('PYTHON', 'POSTGRESQL','TABLEAU') THEN 1 ELSE 0 END) AS TOTAL_SKILLS FROM CANDIDATES GROUP BY CANDIDATE_ID HAVING TOTAL_SKILLS =3 ORDER BY CANDIDATE_ID;)
 
+2)
+select candidate_id from candidates where skills in ('PYTHON','SQL','TABLEAU') group by candidate_id having count(skills)=3;
+
+3)
+select candidate_id from candidates group by candidate_id having sum(case when skills in ('PYTHON','SQL','TABLEAU') then 1 else 0 end)=3;
 
 
 
