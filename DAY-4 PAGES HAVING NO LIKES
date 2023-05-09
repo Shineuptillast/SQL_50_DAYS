@@ -29,4 +29,5 @@ The dataset you are querying against may have different input & output - this is
 
 
 SOLUTION---->
-select pg.page_id from pages pg left join page_likes pg_l on pg.page_id = pg_l.page_id WHERE pg_l.user_id is null order by pg.page_id; 
+1) Join --> select pg.page_id from pages pg left join page_likes pg_l on pg.page_id = pg_l.page_id WHERE pg_l.user_id is null order by pg.page_id; 
+2) Subquery--> select page_id from pages where page_id not in (select distinct page_id from page_likes) order by page_id;
