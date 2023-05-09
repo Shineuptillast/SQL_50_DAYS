@@ -28,4 +28,5 @@ Explanation: The page with ID 20701 has no likes.
 The dataset you are querying against may have different input & output - this is just an example!
 
 
-SOLUTIONN---->
+SOLUTION---->
+select pg.page_id from pages pg left join page_likes pg_l on pg.page_id = pg_l.page_id WHERE pg_l.user_id is null order by pg.page_id; 
