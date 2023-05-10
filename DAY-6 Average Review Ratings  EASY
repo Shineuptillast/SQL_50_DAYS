@@ -27,3 +27,7 @@ Explanation
 In June (month #6), product 50001 had two ratings - 4 and 3, resulting in an average star rating of 3.5.
 
 The dataset you are querying against may have different input & output - this is just an example!
+
+SOLUTION-->
+1)SELECT EXTRACT(MONTH FROM SUBMIT_DATE),PRODUCT_ID,ROUND(AVG(STARS),2) FROM REVIEWS GROUP BY EXTRACT(MONTH FROM SUBMIT_DATE), PRODUCT_ID
+ORDER BY EXTRACT(MONTH FROM SUBMIT_DATE),PRODUCT_ID;
