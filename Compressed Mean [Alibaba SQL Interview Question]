@@ -26,3 +26,6 @@ Mean = 8900 / 3300 = 2.7
 
 The dataset you are querying against may have different input & output - this is just an example!
 
+Solution-->
+1)select round(sum(a.total_items)/sum(a.order_occurrences),1) from 
+(select (item_count::decimal*order_occurrences) as total_items, order_occurrences  from items_per_order) a;
