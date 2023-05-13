@@ -34,4 +34,4 @@ Only User 1052 confirmed their sign-up on the second day.
 The dataset you are querying against may have different input & output - this is just an example!
 
 Solution-->
-1) select user_id from emails join texts on emails.email_id = texts.email_id AND date_part('day',texts.action_date-emails.signup_date)='1';
+1) select user_id from emails join texts on emails.email_id = texts.email_id and date_part('day',texts.action_date-emails.signup_date)='1' and texts.signup_action='Confirmed';
