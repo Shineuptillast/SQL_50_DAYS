@@ -35,3 +35,7 @@ The dataset you are querying against may have different input & output - this is
 
 Solution-->
 1) select user_id from emails join texts on emails.email_id = texts.email_id and date_part('day',texts.action_date-emails.signup_date)='1' and texts.signup_action='Confirmed';
+2)SELECT DISTINCT user_id
+FROM emails e
+INNER JOIN texts t ON e.email_id=t.email_id
+WHERE t.action_date=e.signup_date + INTERVAL '1 day' 
