@@ -31,3 +31,9 @@ Explanation:
 Zyprexa made the most profit (of $84,576.53) followed by Varicose Relief (of $80,926.64) and Surmontil (of $79,815.3).
 
 The dataset you are querying against may have different input & output - this is just an example!
+Solution-->
+1)with cte as 
+(select drug, (total_sales-cogs) profits from pharmacy_sales order by profits desc limit 3)
+, cte_rank as( select * , 
+row_number() over(order by profits desc) as rnk from cte)
+select drug, profits from cte_rank where rnk<=3 
