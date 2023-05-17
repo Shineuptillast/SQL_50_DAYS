@@ -47,3 +47,19 @@ To calculate the percentage of time spent sending snaps, we divide the time spen
 So, the percentage of time spent sending snaps is 5.67 / (5.67 + 3) = 65.4%, and the percentage of time spent opening snaps is 3 / (5.67 + 3) = 34.6%.
 
 The dataset you are querying against may have different input & output - this is just an example!
+
+
+
+Solution-->
+1) with cte as (select ag.age_bucket as age_bucket,
+            
+            sum(case when a.activity_type in ('send') then a.time_spent else 0 end) as send_msg,
+            sum(case when a.activity_type in ('open') then a.time_spent else 0 end) as open_msg
+from activities a inner join age_breakdown ag   
+on a.user_id = ag.user_id
+group by ag.age_bucket )
+select  age_bucket, 
+        round((100.0*send_msg/(send_msg+open_msg)),2) as send_prec,
+        round((100.0*open_msg/(send_msg+open_msg)),2) as open_prec
+from cte;
+        
