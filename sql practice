@@ -1,0 +1,152 @@
+create database xotivchallenge;
+
+use xotivchallenge;
+
+create table damageCodes (
+flag int,
+id int,
+name varchar(100)
+);
+
+create table Claims (
+flag_2 int,
+claim_id int,
+damage_list varchar(200)
+);
+
+insert into damageCodes values (1,1,"Cable Failures"),(2,14,"Shoe Polish"), (3, 15, "Crowned or Curved"), 
+(4,48,"Glass"), (5,157,"Tear"), (6,36,"Wind Damage"), (7,112, "Other"), (8, 100, "Welds") ,(9,133,"Umbrella"),(10,9,"Power Surge");
+
+
+insert into Claims values (1,435747,"1,14,15,157"),(2,316248,"48,49,192"), (3, 1661430, "48,36"), 
+(4,890792,"48,107"), (5,795965,"48,24,112"), (6,1674736,"48,49,194"), (7,1111170, "9,100,Fabric worn");
+
+
+select * from claimsdamagedecoded;
+
+
+select * from damageCodes;
+select * from Claims;
+
+
+insert into claims values (9,23234,"48,Fabric,'[]'");
+
+insert into claims values (10, 234234, "199,48,Fabric,100,[]");
+
+insert into claims values (11, 234, "Hello,Fabric,100");
+
+insert into claims values (14, 12, "Hello,Fabric,100");
+
+create table numbers
+( n int);
+
+select * from numbers;
+insert into numbers values (1), (2), (3), (4), (5), (6);
+
+
+# LENGTH(s) - LENGTH(REPLACE(s, del, '')) + 1
+
+Separating the data;
+create view ClaimsDamageDecoded as (
+with cte as (
+SELECT
+  claims.claim_id,
+  claims.damage_list,
+  SUBSTRING_INDEX(SUBSTRING_INDEX(claims.damage_list, ',', -1*numbers.n), ',', 1) as damage_list_substring
+FROM
+  numbers INNER JOIN claims
+  ON CHAR_LENGTH(claims.damage_list)
+     -CHAR_LENGTH(REPLACE(claims.damage_list, ',', ''))>=numbers.n-1
+),
+cte2 as (
+select cte.claim_id,
+	   cte.damage_list_substring,
+	   case when damagecodes.name is not null then damageCodes.name when (damageCodes.name is null and damage_list_substring REGEXP "[^0-9]") then damage_list_substring else " " end as damage_codes
+    from cte 
+left join damageCodes
+ on cte.damage_list_substring = damageCodes.id
+ order by claim_id, damage_list_substring)
+,
+ cte3 as (
+ select claim_id,
+		damage_list_substring,
+		damage_codes
+ from cte2 order by claim_id
+ )
+select claim_id, 
+ group_concat(damage_list_substring) as damage_list,
+ group_concat(case when damage_codes REGEXP "[a-zA-Z]" then damage_codes end separator ">") as damage_list_strings
+ from cte3
+ group by cte3.claim_id);
+ 
+
+       
+
+
+select * from claimsdamagedecoded;
+
+drop view claimsdamagedecoded;
+
+
+
+
+99-- null
+48-- glass
+fabric--fabric
+
+99,48,Fabric
+glass>fabric
+
+48,Fabric,"[]"
+glass>fabric
+48,Fabric,[]
+
+
+CREATE TABLE tablename (
+  id INT,
+  name VARCHAR(20));
+
+INSERT INTO tablename VALUES
+(3, '1,2,3,4'),
+(2, 'd');
+
+CREATE TABLE numbers (
+  n INT PRIMARY KEY);
+
+INSERT INTO numbers VALUES (1),(2),(3),(4),(5),(6);
+select * from tablename;
+
+SELECT
+  tablename.id,
+  SUBSTRING_INDEX(SUBSTRING_INDEX(tablename.name, ',', numbers.n), ',', -1) name
+FROM
+  numbers INNER JOIN tablename
+  ON CHAR_LENGTH(tablename.name)
+     -CHAR_LENGTH(REPLACE(tablename.name, ',', ''))>=numbers.n-1
+
+  
+  drop table claims;
+  
+  
+  
+
+1,14,15,157
+1
+14
+15--null
+157
+
+
+case when damage_list_substring REGEXP "[0-9]" then cast(damage_list_substring as signed) else -1 end as damage_list_substring,
+
+
+
+
+
+
+
+
+
+
+
+
